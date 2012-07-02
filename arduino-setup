@@ -1,0 +1,9 @@
+# variables used by the arduino.mk Arduino makefile
+export AVRDIR=/usr/local/avr
+export AVRTOOLSPATH=$AVRDIR/bin
+export PATH=$PATH:$AVRTOOLSPATH
+export ARDUINODIR=$AVRDIR/arduino
+export BOARD=uno
+export SERIALDEV=/dev/ttyACM0 
+export SERIALMONBPS=9600
+
