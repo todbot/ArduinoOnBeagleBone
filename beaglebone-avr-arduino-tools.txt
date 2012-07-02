@@ -1,0 +1,116 @@
+
+
+Compiling avr-tools on Beaglebone
+=================================
+
+Basically, follow instructions at: 
+  http://www.nongnu.org/avr-libc/user-manual/install_tools.html
+
+Then use the Makefile at:
+   http://ed.am/dev/make/arduino-mk
+
+
+1. Install extra packages
+ # opkg install libgmp-staticdev
+ # opkg install libmpfr-staticdev 
+ # opkg install libmpc-staticdev
+ # opkg intstal libusb-1.0-dev
+
+
+2. Set PREFIX & PATH for building avr-gcc/avr-libc/etc.
+ # export AVRDIR=/usr/local/avr
+ # export PATH=$PATH:$AVRDIR/bin
+
+3. Make a temp directory for downloading & compiling 
+ # mkdir ~/tmp
+ # cd ~/tmp
+
+4. Build & install binutils
+ # tar xvzf binutils-2.22.tar.gz 
+ # cd binutils-2.22
+ # mkdir obj-avr
+ # cd obj-avr
+ # ../configure --prefix=$AVRDIR --target=avr --disable-nls
+ # make
+ # make install
+
+5. Build & install avr-gcc
+ # tar xvjf gcc-4.5.3.tar.bz2 
+ # cd gcc-4.5.3
+ # mkdir obj-avr
+ # cd obj-avr
+ # ../configure --prefix=$AVRDIR --target=avr --enable-languages=c,c++ \
+    --disable-nls --disable-libssp --with-dwarf2
+ # make
+ # make install
+
+6. Build & install avr-libc
+ # tar xvjf avr-libc-1.8.0.tar.bz2
+ # cd avr-libc-1.8.0
+ # ./configure --prefix=$AVRDIR --build=arm-angstrom-linux-gnueabi --host=avr
+ # make
+ # make install
+
+7. Build & install avrdude
+    Note, you must cross-compile this on a Linux box, 
+    due to some weird ylwrap error when trying to make avrdude on Beaglebone
+    Getting an ARM cross compiler going is outside the domain of this doc
+    But steps are basically:
+   ## mkdir obj-avr &&  cd obj-avr 
+   ## . /usr/local/angstrom/arm/environment-setup 
+   ## ../configure --host=$TARGET_SYS --prefix=/usr/local/avr 
+   ## scp avrdude root@beaglebone:/usr/local/avr/bin
+   ## scp avrdude.conf root@beaglebone:/usr/local/avr/
+   # on beaglebone
+   #  mkdir /usr/local/avr/etc  
+   #  mv /usr/local/avr/avrdude.conf /usr/local/avr/etc 
+
+8. Download Arduino files (just the config files really)
+ # cd $AVRDIR
+ # wget http://arduino.googlecode.com/files/arduino-1.0.1-linux.tgz
+ # tar xvzf arduino-1.0.1-linux.tar.gz
+ # ln -s arduino-1.0.1 arduino
+
+9. Get Arduino Makefile
+ # cd $AVRDIR
+ # wget http://ed.am/dev/make/arduino-mk/arduino.mk
+ 
+10. Set env vars that Makefile needs, you can change BOARD & SERIALDEV later
+ # cat > /usr/local/avr/arduino-setup
+ export AVRDIR=/usr/local/avr
+ export AVRTOOLSPATH=$AVRDIR/bin
+ export PATH=$PATH:$AVRTOOLSPATH
+ export ARDUINODIR=$AVRDIR/arduino
+ export BOARD=uno
+ export SERIALDEV=/dev/ttyACM0
+ export SERIALMONBPS=9600
+  
+11. Now you can use that whenever you login
+ # echo ". /usr/local/avr/arduino-setup" >> ~/.profile
+
+12. See a list of Arduino boards available
+ # make -f $AVRDIR/arduino.mk boards
+
+8. Get ready to compile sketches
+ # mkdir ~/sketches
+ # cd ~/sketches
+
+13. Get a sketch, compile it, and upload it
+ # cp -r $AVRDIR/arduino/examples/01.Basics/Blink/ .
+ # cd Blink
+ # ln -s $AVRDIR/arduino.mk Makefile
+ # make
+ # make upload
+ # make monitor   (use ctrl-A + k to exit)
+
+
+14. Getting a sketch off of a thumbdrive
+ # mkdir /mnt/thumbdrive
+ # mount -o ro /dev/sda1 /mnt/thumbdrive
+ # cp -r /mnt/thumbdrive/sketches/mysketch ~/sketches
+ # cp -r /mnt/thumbdrive/sketches/mysketch-settings ~/sketches
+ # umount /mnt/thumbdrive
+ # 
+
+
+
