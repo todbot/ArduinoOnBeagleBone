@@ -1,4 +1,9 @@
-# variables used by the arduino.mk Arduino makefile
+# Environment variables for building Arduino sketches
+# used by the arduino.mk Arduino makefile
+# Load this at login by adding it to your .profile file with
+#  echo ". /usr/local/avr/arduino-setup" >> ~/.profile
+# Change the last three at any time to alter what board & port you're using
+export ARDUINOCONST=101
 export AVRDIR=/usr/local/avr
 export AVRTOOLSPATH=$AVRDIR/bin
 export PATH=$PATH:$AVRTOOLSPATH

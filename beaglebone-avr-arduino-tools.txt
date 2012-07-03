@@ -1,23 +1,41 @@
 
+Building AVR & Arduino tools on Beaglebone
+===========================================
+https://github.com/todbot/ArduinoOnBeagleBone
+2012, Tod E. Kurt, http://todbot.com/blog/
 
-Compiling avr-tools on Beaglebone
-=================================
+Overview
+--------
+The below will give you the command-line tools needed to compile AVR programs
+and Arduino sketches.  In this way it is similar to WinAVR for Windows and 
+CrossPack for Mac OS X.
 
-Basically, follow instructions at: 
+Specifically, the versions of the tools created are:
+- avr binutils-2.22
+- avr gcc-4.5.3
+- avr-libc-1.8.0 
+- avrdude 5.11.1
+
+The build process is basically is to follow instructions at: 
   http://www.nongnu.org/avr-libc/user-manual/install_tools.html
+on your Angstrom-based Beaglebone and with a few minor changes
 
-Then use the Makefile at:
+Then use a slightly modified version of the Makefile at:
    http://ed.am/dev/make/arduino-mk
 
+This Makefile uses some environment variables, included in the 'arduino-setup'
+file and described below.
 
-1. Install extra packages
+
+Building 
+--------
+1. Install extra packages (also, should be on current Angstrom for Beaglebone)
  # opkg install libgmp-staticdev
  # opkg install libmpfr-staticdev 
  # opkg install libmpc-staticdev
  # opkg intstal libusb-1.0-dev
 
-
-2. Set PREFIX & PATH for building avr-gcc/avr-libc/etc.
+2. Set PREFIX & PATH environment variables for building
  # export AVRDIR=/usr/local/avr
  # export PATH=$PATH:$AVRDIR/bin
 
@@ -26,7 +44,8 @@ Then use the Makefile at:
  # cd ~/tmp
 
 4. Build & install binutils
- # tar xvzf binutils-2.22.tar.gz 
+ # wget http://ftp.gnu.org/gnu/binutils/binutils-2.22.tar.bz2
+ # tar xvjf binutils-2.22.tar.bz2 
  # cd binutils-2.22
  # mkdir obj-avr
  # cd obj-avr
@@ -35,6 +54,7 @@ Then use the Makefile at:
  # make install
 
 5. Build & install avr-gcc
+ # wget ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.5.3/gcc-4.5.3.tar.gz
  # tar xvjf gcc-4.5.3.tar.bz2 
  # cd gcc-4.5.3
  # mkdir obj-avr
@@ -45,6 +65,7 @@ Then use the Makefile at:
  # make install
 
 6. Build & install avr-libc
+ # wget http://download.savannah.gnu.org/releases/avr-libc/avr-libc-1.8.0.tar.bz2
  # tar xvjf avr-libc-1.8.0.tar.bz2
  # cd avr-libc-1.8.0
  # ./configure --prefix=$AVRDIR --build=arm-angstrom-linux-gnueabi --host=avr
@@ -56,6 +77,7 @@ Then use the Makefile at:
     due to some weird ylwrap error when trying to make avrdude on Beaglebone
     Getting an ARM cross compiler going is outside the domain of this doc
     But steps are basically:
+   ## [install angstrom ARM cross-compiler for Linux]
    ## mkdir obj-avr &&  cd obj-avr 
    ## . /usr/local/angstrom/arm/environment-setup 
    ## ../configure --host=$TARGET_SYS --prefix=/usr/local/avr 
@@ -91,11 +113,11 @@ Then use the Makefile at:
 12. See a list of Arduino boards available
  # make -f $AVRDIR/arduino.mk boards
 
-8. Get ready to compile sketches
- # mkdir ~/sketches
+13. Get ready to compile sketches
+ # mkdir -p ~/sketches
  # cd ~/sketches
 
-13. Get a sketch, compile it, and upload it
+14. Get a sketch, compile it, and upload it
  # cp -r $AVRDIR/arduino/examples/01.Basics/Blink/ .
  # cd Blink
  # ln -s $AVRDIR/arduino.mk Makefile
@@ -103,14 +125,19 @@ Then use the Makefile at:
  # make upload
  # make monitor   (use ctrl-A + k to exit)
 
-
-14. Getting a sketch off of a thumbdrive
- # mkdir /mnt/thumbdrive
+Optional: How to get sketches off a thumbdrive
+15. Getting a sketch off of a thumbdrive
+ # mkdr -p ~/sketches
+ # mkdir -p /mnt/thumbdrive
  # mount -o ro /dev/sda1 /mnt/thumbdrive
  # cp -r /mnt/thumbdrive/sketches/mysketch ~/sketches
  # cp -r /mnt/thumbdrive/sketches/mysketch-settings ~/sketches
  # umount /mnt/thumbdrive
- # 
+ [then compile like in Step 14]
+
+
+-eof-
+ 
 
 
 
