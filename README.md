@@ -14,6 +14,25 @@ Specifically, the versions of the tools created are:
 - avrdude 5.11.1
 
 
+Short version
+-------------
+1. Get & install the tools tarball with:
+    # cd /
+    # wget http://cloud.github.com/downloads/todbot/ArduinoOnBeagleBone/avrtools-arduino-beaglebone-20120630.tar.gz
+    # tar xvzf avrtools-arduino-beaglebone-20120630.tar.gz
+    # . /usr/local/avr/arduino-setup
+
+2. Go into your sketch directory and start compiling
+    # cd ~/sketches/MyAwesomSketch
+    # ln -s $AVRDIR/arduino.mk Makefile
+    # make
+    # make upload
+    # make monitor
+
+
+More Info
+---------
+
 For details on how to use this package, see:
  "using-beaglebone-avr-arduino-tools.txt"
 
