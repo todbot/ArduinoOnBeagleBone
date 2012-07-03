@@ -16,6 +16,7 @@ Specifically, the versions of the tools created are:
 
 Short version
 -------------
+
 1. Get & install the tools tarball with:
     # cd /
     # wget http://cloud.github.com/downloads/todbot/ArduinoOnBeagleBone/avrtools-arduino-beaglebone-20120630.tar.gz
