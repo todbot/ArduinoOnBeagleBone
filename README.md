@@ -13,6 +13,7 @@ Specifically, the versions of the tools created are:
 - avr-libc-1.8.0 
 - avrdude 5.11.1
 
+![arduino on beaglebone](http://farm8.staticflickr.com/7133/7498727432_681c5955ba_n.jpg)
 
 Quickstart
 -----------
