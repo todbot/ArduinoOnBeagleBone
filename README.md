@@ -15,6 +15,9 @@ Specifically, the versions of the tools created are:
 
 ![arduino on beaglebone](http://farm8.staticflickr.com/7133/7498727432_681c5955ba_n.jpg)
 
+Update 19 Jul 2014: @schiavone has updated the process to work with modern Arduino, see: https://docs.google.com/document/d/1k3ltjBM7x6sSX8FyFmMQFxjCXu7EGPTC8_UaT0u0PGM/edit?usp=sharing
+
+
 Quickstart
 -----------
 
