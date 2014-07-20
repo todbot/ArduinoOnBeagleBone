@@ -4,6 +4,9 @@ Building AVR & Arduino tools on Beaglebone
 https://github.com/todbot/ArduinoOnBeagleBone
 2012, Tod E. Kurt, http://todbot.com/blog/
 
+Update 19 Jul 2014: @schiavone has updated the process to work with modern Arduino, 
+see: https://docs.google.com/document/d/1k3ltjBM7x6sSX8FyFmMQFxjCXu7EGPTC8_UaT0u0PGM/edit?usp=sharing
+
 Overview
 --------
 The below will give you the command-line tools needed to compile AVR programs
